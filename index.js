@@ -25,7 +25,7 @@ bot.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hello</b>'));
 
 // Set telegram webhook
 // npm install -g localtunnel && lt --port 3000
-bot.telegram.setWebhook(`https://${tghost}/${tgbot}`)
+bot.telegram.setWebhook(`https://${tghost}/${tgtoken}`)
 
 // Start https webhook
-bot.startWebhook(`${tgbot}`, null, 3000);
+bot.startWebhook(`${tgtoken}`, null, 3000);
