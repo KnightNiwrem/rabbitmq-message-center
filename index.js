@@ -28,4 +28,4 @@ bot.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hello</b>'));
 bot.telegram.setWebhook(`https://${tghost}/${tgtoken}`)
 
 // Start https webhook
-bot.startWebhook(`${tgtoken}`, null, 3000);
+bot.startWebhook(`/${tgtoken}`, null, 3000);
