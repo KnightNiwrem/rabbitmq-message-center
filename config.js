@@ -39,6 +39,16 @@ const config = convict({
     default: 'amqp',
     env: 'RABBITMQ_PROTOCOL',
   },
+  tghost: {
+    doc: 'The hostname for the telegram server',
+    default: 'localhost',
+    env: 'RABBITMQ_TELEGRAM_HOST'
+  },
+  tgtoken: {
+    doc: 'The telegram bot token for interaction with rabbitmq through telegram',
+    default: '',
+    env: 'RABBITMQ_TELEGRAM_BOTTOKEN'
+  },
 });
 
 // Perform validation
