@@ -28,12 +28,6 @@ const config = convict({
     default: 'guest',
     env: 'RABBITMQ_PASSWORD',
   },
-  port: {
-    doc: 'The port for the rabbitmq connection',
-    format: 'port',
-    default: 5672,
-    env: 'RABBITMQ_PORT',
-  },
   protocol: {
     doc: 'The protocol for the rabbitmq connection',
     default: 'amqp',
