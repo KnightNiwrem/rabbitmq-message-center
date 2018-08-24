@@ -37,9 +37,13 @@ bot.hears(/(?:\/)?newuser ([a-zA-Z_]+) ([a-zA-Z0-9_-]+)/, (ctx) => {
 bot.hears(/(?:\/)?exchanges/, (ctx) => {
   const listCommand = `docker exec -i rabbitmq rabbitmqctl list_exchanges`;
   const { stdout, stderr } = exec(listCommand);
-  stdout.split("\n").forEach((line) => {
-    console.log(JSON.stringify(line.split(" ")));
-  });
+
+  const fanouts = stdout.split("\n").slice(1)
+  .map((line) => line.split("\t"))
+  .filter(([name, type]) => type === 'fanout')
+  .map(([name, type]) => name);
+
+  return ctx.reply(`Available exchanges:\n ${fanouts.join("\n")}`);
 });
 
 // Set telegram webhook
