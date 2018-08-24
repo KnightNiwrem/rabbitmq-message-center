@@ -1,5 +1,5 @@
 const amqp = require('amqp-connection-manager');
-const exec = (require('util')).promisify(require('child_process').exec);
+const { exec } = require('shelljs');
 const Telegraf = require('telegraf');
 
 const config = require('./config');
@@ -16,23 +16,30 @@ const channelWrapper = connection.createChannel({ json: true });
  ***************/
 
 const bot = new Telegraf(tgtoken);
-bot.hears(/(?:\/)?newuser ([a-zA-Z_]+) ([a-zA-Z0-9_-]+)/, async (ctx) => {
+
+bot.hears(/(?:\/)?newuser ([a-zA-Z_]+) ([a-zA-Z0-9_-]+)/, (ctx) => {
   const [ , username, password, ] = ctx.match;
   const createCommand = `docker exec -i rabbitmq rabbitmqctl add_user ${username} ${password}`;
-  const { createOut, createErr } = await exec(createCommand);
+  const { stdout: createOut, stderr: createErr } = exec(createCommand);
   if (createErr) {
-    ctx.reply(`Could not create user ${username} - username is probably already taken!`);
-    return;
+    return ctx.reply(`Could not create user ${username} - username is probably already taken!`);
   }
 
   const permissionCommand = `docker exec -i rabbitmq rabbitmqctl set_permissions ${username} "" "" ${username}-.*`;
-  const { permissionOut, permissionErr } = await exec(permissionCommand);
+  const { stdout: permissionOut, stderr: permissionErr } = exec(permissionCommand);
   if (permissionErr) {
-    ctx.reply(`Could not set permissions for user ${username}!`);
-    return;
+    return ctx.reply(`Could not set permissions for user ${username}!`);
   }
 
-  ctx.reply(`Created user ${username} with password ${password}`);
+  return ctx.reply(`Created user ${username} with password ${password}`);
+});
+
+bot.hears(/(?:\/)?exchanges/, (ctx) => {
+  const listCommand = `docker exec -i rabbitmq rabbitmqctl list_exchanges`;
+  const { stdout, stderr } = exec(listCommand);
+  stdout.split("\n").forEach((line) => {
+    console.log(JSON.stringify(line.split(" ")));
+  });
 });
 
 // Set telegram webhook
