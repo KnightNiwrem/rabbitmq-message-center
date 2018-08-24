@@ -40,10 +40,10 @@ bot.hears(/(?:\/)?exchanges/, (ctx) => {
 
   const fanouts = stdout.split("\n").slice(1)
   .map((line) => line.split("\t"))
-  .filter(([name, type]) => type === 'fanout' && name !== 'amqp.fanout')
+  .filter(([name, type]) => type === 'fanout' && name === 'amq.fanout')
   .map(([name, type]) => name);
 
-  return ctx.reply(`Available exchanges:\n ${fanouts.join("\n")}`);
+  return ctx.reply(`Available exchanges:\n${fanouts.join("\n")}`);
 });
 
 // Set telegram webhook
