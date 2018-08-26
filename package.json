@@ -15,7 +15,7 @@
     "docker-logs": "docker logs -f rabbitmq",
     "docker-restart": "docker restart rabbitmq",
     "docker-rm": "docker rm rabbitmq",
-    "docker-run": "docker run --hostname localhost --name rabbitmq -d -e RABBITMQ_DEFAULT_USER=$RABBITMQ_USERNAME -e RABBITMQ_DEFAULT_PASS=$RABBITMQ_PASSWORD -p $RABBITMQ_ADMIN_PORT:15672 -p $RABBITMQ_CONNECTION_PORT:5672 rabbitmq:3.7.7-management",
+    "docker-run": "docker run --hostname rabbitmq --name rabbitmq -d -e RABBITMQ_DEFAULT_USER=$RABBITMQ_USERNAME -e RABBITMQ_DEFAULT_PASS=$RABBITMQ_PASSWORD -p $RABBITMQ_ADMIN_PORT:15672 -p $RABBITMQ_CONNECTION_PORT:5672 rabbitmq:3.7.7-management",
     "docker-stop": "docker stop rabbitmq",
     "start": "RABBITMQ_USERNAME=$RABBITMQ_USERNAME RABBITMQ_PASSWORD=$RABBITMQ_PASSWORD pm2 start index.js --name rabbitmq",
     "test": "echo \"Error: no test specified\" && exit 1"
